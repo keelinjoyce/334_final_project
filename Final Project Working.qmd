@@ -1,0 +1,109 @@
+---
+title: "Final Project Wrangling"
+author: "Keelin Joyce"
+format: html
+editor: visual
+---
+```{r}
+## initial cleaning and wrangling done in excel
+library(readr)
+library(ggplot2)
+library(tidyverse)
+x500sData <- read_csv("500sData.csv")
+x1000sData <- read_csv("1000sData.csv")
+```
+
+```{r}
+x500_long <- x500sData |> pivot_longer(cols = Interval1:Interval7, 
+                                       names_to = "Interval", values_to = "Time") |>
+  mutate("Time" = as.numeric(Time))
+
+x500_line <- x500_long |> group_by(Trial, Interval) |>
+  summarise(Mean = (mean(Time)) 
+
+
+x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5, 
+                                       names_to = "Interval", values_to = "Time")
+```
+
+
+```{r}
+ggplot(data = x500_long, aes(x = Interval, y = Time)) +
+  geom_point() +
+  geom_line(data = x500_line, aes(x = Interval, y = Mean))
+```
+
+```{r}
+pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
+  mutate(first10k = as.numeric(first10k)) |>
+  mutate(second10k = as.numeric(second10k)) |>
+  mutate(k2 = as.numeric(k2))
+
+library(openintro)
+library(ggeffects)
+library(broom)
+
+ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+mod_2k <- lm(k2 ~ second10k, data = pred_10k_2k)
+mod_2k |> tidy()
+
+ggpredict(mod_2k, terms = "second10k")
+
+ggpredict(mod_2k, terms = "second10k") |> 
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble()
+
+pred_time <- ggpredict(mod_2k, terms = "second10k") |>
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble()
+
+ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
+  geom_point() +
+  geom_line(data = pred_time, aes(x = second10k, y = predicted),
+            colour = "blue", linewidth = 1.2) +
+  geom_ribbon(data = pred_time, aes(y = predicted,
+                                  ymin = conf.low,
+                                  ymax = conf.high), 
+              alpha = 0.3, colour = "red", fill = "red")
+```
+
+```{r}
+mod_2k <- lm(k2 ~ second10k + class_year + v1, data = pred_10k_2k)
+mod_2k |> tidy()
+
+ggpredict(mod_2k, terms = c("second10k", "class_year", "v1"))
+
+ggpredict(mod_2k, terms = c("second10k", "class_year", "v1")) |> 
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble()
+
+pred_time <- ggpredict(mod_2k, terms = c("second10k", "class_year", "v1")) |>
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble()
+
+ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
+  facet_wrap(~class_year) +
+  geom_line(data = pred_time, aes(x = second10k, y = predicted),
+            colour = "forestgreen", linewidth = 1.2) +
+  geom_ribbon(data = pred_time, aes(y = predicted,
+                                  ymin = conf.low,
+                                  ymax = conf.high), 
+              alpha = 0.3, colour = "pink", fill = "pink") +
+  geom_point(aes(colour = v1))
+
+ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
+  geom_point() +
+  geom_line(data = pred_time, aes(x = second10k, y = predicted))
+
+ggplot(data = plot_df, aes(x = age, y = predicted)) +
+  geom_line(aes(colour = gender), linewidth = 1.5) +
+  facet_grid(rank ~ model) +
+  scale_colour_viridis_d() +
+  geom_point(data = evals, aes(y = score, colour = gender), alpha = 0.2)
+```
+
+
+
