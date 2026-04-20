@@ -9,6 +9,9 @@ editor: visual
 library(readr)
 library(ggplot2)
 library(tidyverse)
+library(openintro)
+library(ggeffects)
+library(broom)
 x500sData <- read_csv("500sData.csv")
 x1000sData <- read_csv("1000sData.csv")
 ```
@@ -16,10 +19,12 @@ x1000sData <- read_csv("1000sData.csv")
 ```{r}
 x500_long <- x500sData |> pivot_longer(cols = Interval1:Interval7, 
                                        names_to = "Interval", values_to = "Time") |>
-  mutate("Time" = as.numeric(Time))
+  mutate("Time" = as.numeric(Time)) |>
+  mutate("Time" = Time/60)
 
 x500_line <- x500_long |> group_by(Trial, Interval) |>
   summarise(Mean = (mean(Time)))
+  
 
 x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5, 
                                        names_to = "Interval", values_to = "Time")
@@ -28,13 +33,16 @@ x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5,
 
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
-  geom_point(aes(group = Trial, color = factor(Trial))) +
+  geom_point(aes(group = Trial, colour = factor(Trial))) +
   geom_line(data = x500_line, aes(x = Interval, y = Mean, 
-                                   group = Trial, color = factor(Trial)),
+                                   group = Trial, colour = factor(Trial)),
             linewidth = 1.5) +
-  scale_color_manual(values = c("purple", "blue", "green3"), name = "Trial") +
-  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals")
+  scale_colour_manual(values = c("purple", "steelblue", "darkorange"), name = "Average of Trial:") +
+  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals",
+       caption = "Data collected for St. Lawrence University Crew Team Winter 2026")
 ```
+The team completed a 7x500m interval piece three times throughout their winter training period. `Trial` indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. The points show each individual data point for each interval, coloured by which trial it was completed during. The three lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. One interesting note is that, despite there being a general trend of athletes slowing down throughout the piece, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes "putting it all out there" knowing that it is their last interval and using that to go faster.
+
 
 ```{r}
 pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
@@ -42,40 +50,29 @@ pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
   mutate(second10k = as.numeric(second10k)) |>
   mutate(k2 = as.numeric(k2))
 
-library(openintro)
-library(ggeffects)
-library(broom)
-
 ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   geom_point() +
   geom_smooth(method = "lm")
 
-mod_2k <- lm(k2 ~ second10k, data = pred_10k_2k)
-mod_2k |> tidy()
+mod_2k_basic <- lm(k2 ~ second10k, data = pred_10k_2k)
+mod_2k_basic |> tidy()
 
-ggpredict(mod_2k, terms = "second10k")
+ggpredict(mod_2k_basic, terms = "second10k")
+glance(mod_2k_basic)
 
-ggpredict(mod_2k, terms = "second10k") |> 
+ggpredict(mod_2k_basic, terms = "second10k") |> 
   as.data.frame(terms_to_colnames = TRUE) |>
   as_tibble()
 
-pred_time <- ggpredict(mod_2k, terms = "second10k") |>
+pred_time_basic <- ggpredict(mod_2k_basic, terms = "second10k") |>
   as.data.frame(terms_to_colnames = TRUE) |>
   as_tibble()
-
-ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
-  geom_point() +
-  geom_line(data = pred_time, aes(x = second10k, y = predicted),
-            colour = "blue", linewidth = 1.2) +
-  geom_ribbon(data = pred_time, aes(y = predicted,
-                                  ymin = conf.low,
-                                  ymax = conf.high), 
-              alpha = 0.3, colour = "red", fill = "red")
 ```
 
 ```{r}
 mod_2k <- lm(k2 ~ second10k + class_year + v1, data = pred_10k_2k)
 mod_2k |> tidy()
+glance(mod_2k)
 
 ggpredict(mod_2k, terms = c("second10k", "class_year", "v1"))
 
@@ -85,41 +82,28 @@ ggpredict(mod_2k, terms = c("second10k", "class_year", "v1")) |>
 
 pred_time <- ggpredict(mod_2k, terms = c("second10k", "class_year", "v1")) |>
   as.data.frame(terms_to_colnames = TRUE) |>
+  mutate(v1 = recode(v1, `0` = "No", `1` = "Yes")) |>
   as_tibble()
 
-ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
-  facet_wrap(~class_year) +
-  geom_line(data = pred_time, aes(x = second10k, y = predicted),
-            colour = "forestgreen", linewidth = 1.2) +
-  geom_ribbon(data = pred_time, aes(y = predicted,
-                                  ymin = conf.low,
-                                  ymax = conf.high), 
-              alpha = 0.3, colour = "pink", fill = "pink") +
-  geom_point(aes(colour = v1))
+pred_time <- pred_time |>
+  arrange(class_year, v1, second10k) |>
+  mutate(v1 = factor(v1, levels = c("No", "Yes")))
 
 ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
-  geom_point() +
-  geom_line(data = pred_time, aes(x = second10k, y = predicted))
-
-ggplot(data = plot_df, aes(x = age, y = predicted)) +
-  geom_line(aes(colour = gender), linewidth = 1.5) +
-  facet_grid(rank ~ model) +
-  scale_colour_viridis_d() +
-  geom_point(data = evals, aes(y = score, colour = gender), alpha = 0.2)
-```
-
-```{r}
-ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
-  facet_wrap(~ class_year) +
-  geom_point(aes(color = factor(v1)), alpha = 0.6) +
-  geom_line(
-    data = pred_time,
-    aes(x = second10k, y = predicted, group = interaction(class_year, v1), color = factor(v1)),
-    linewidth = 1) +
+  facet_wrap(~ class_year, labeller = labeller(class_year = c("1" = "Freshman",
+             "2" = "Sophomore", "3" = "Junior", "4" = "Senior"))) +
+  geom_point(aes(colour = factor(v1)), alpha = 0.8) +
+  geom_line(data = pred_time, aes(x = second10k, y = predicted, 
+                                  group = interaction(class_year, v1), 
+                                  colour = factor(v1)), linewidth = 1) +
   geom_ribbon(data = pred_time, aes(x = second10k, y = predicted,
       ymin = conf.low, ymax = conf.high, group = interaction(class_year, v1),
       fill = factor(v1)), alpha = 0.2) +
-  labs(color = "v1", fill = "v1")
+  labs(colour = "Varsity Boat", fill = "Varsity Boat", y = "2k time (in seconds)",
+       caption = "Data collected for St. Lawrence University Crew Team Winter 2026",
+       x = "10k time (in seconds)") +
+  scale_colour_manual(values = c("steelblue", "darkorange")) +
+  scale_fill_manual(values = c("steelblue", "darkorange"))
 ```
-
-
+Add more about coefficients and analysis.
+The linear regression shows that a good indicator of 2k time is the second 10k completed. 
