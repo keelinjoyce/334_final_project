@@ -19,8 +19,7 @@ x500_long <- x500sData |> pivot_longer(cols = Interval1:Interval7,
   mutate("Time" = as.numeric(Time))
 
 x500_line <- x500_long |> group_by(Trial, Interval) |>
-  summarise(Mean = (mean(Time)) 
-
+  summarise(Mean = (mean(Time)))
 
 x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5, 
                                        names_to = "Interval", values_to = "Time")
@@ -29,8 +28,12 @@ x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5,
 
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
-  geom_point() +
-  geom_line(data = x500_line, aes(x = Interval, y = Mean))
+  geom_point(aes(group = Trial, color = factor(Trial))) +
+  geom_line(data = x500_line, aes(x = Interval, y = Mean, 
+                                   group = Trial, color = factor(Trial)),
+            linewidth = 1.5) +
+  scale_color_manual(values = c("purple", "blue", "green3"), name = "Trial") +
+  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals")
 ```
 
 ```{r}
@@ -105,5 +108,18 @@ ggplot(data = plot_df, aes(x = age, y = predicted)) +
   geom_point(data = evals, aes(y = score, colour = gender), alpha = 0.2)
 ```
 
+```{r}
+ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
+  facet_wrap(~ class_year) +
+  geom_point(aes(color = factor(v1)), alpha = 0.6) +
+  geom_line(
+    data = pred_time,
+    aes(x = second10k, y = predicted, group = interaction(class_year, v1), color = factor(v1)),
+    linewidth = 1) +
+  geom_ribbon(data = pred_time, aes(x = second10k, y = predicted,
+      ymin = conf.low, ymax = conf.high, group = interaction(class_year, v1),
+      fill = factor(v1)), alpha = 0.2) +
+  labs(color = "v1", fill = "v1")
+```
 
 
