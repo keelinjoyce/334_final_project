@@ -110,77 +110,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## initial cleaning and wrangling done in excel</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ stringr   1.6.0
-✔ forcats   1.0.1     ✔ tibble    3.3.1
-✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-✔ purrr     1.2.1     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: airports
-Loading required package: cherryblossom
-Loading required package: usdata</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x500sData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"500sData.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 47 Columns: 11
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl  (3): ID, Rate, Trial
-time (8): Average, Interval1, Interval2, Interval3, Interval4, Interval5, In...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x1000sData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"1000sData.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 32 Columns: 9
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl  (2): ID, Trial
-time (7): Goal, Average, Interval1, Interval2, Interval3, Interval4, Interval5
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>x500sData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"500sData.csv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x1000sData <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"1000sData.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x500_long <span class="ot">&lt;-</span> x500sData <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Interval1<span class="sc">:</span>Interval7, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">names_to =</span> <span class="st">"Interval"</span>, <span class="at">values_to =</span> <span class="st">"Time"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Time"</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(Time)) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Time"</span> <span class="ot">=</span> Time<span class="sc">/</span><span class="dv">60</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>x500_line <span class="ot">&lt;-</span> x500_long <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Trial, Interval) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean =</span> (<span class="fu">mean</span>(Time)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`summarise()` has regrouped the output.
-ℹ Summaries were computed grouped by Trial and Interval.
-ℹ Output is grouped by Trial.
-ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-ℹ Use `summarise(.by = c(Trial, Interval))` for per-operation grouping
-  (`?dplyr::dplyr_by`) instead.</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x500_long <span class="ot">&lt;-</span> x500sData <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Interval1<span class="sc">:</span>Interval7, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">names_to =</span> <span class="st">"Interval"</span>, <span class="at">values_to =</span> <span class="st">"Time"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Time"</span> <span class="ot">=</span> <span class="fu">as.numeric</span>(Time)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">"Time"</span> <span class="ot">=</span> Time<span class="sc">/</span><span class="dv">60</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x500_line <span class="ot">&lt;-</span> x500_long <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Trial, Interval) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean =</span> (<span class="fu">mean</span>(Time)))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>x1000_long <span class="ot">&lt;-</span> x1000sData <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Interval1<span class="sc">:</span>Interval5, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">names_to =</span> <span class="st">"Interval"</span>, <span class="at">values_to =</span> <span class="st">"Time"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x1000_long <span class="ot">&lt;-</span> x1000sData <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Interval1<span class="sc">:</span>Interval5, </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">names_to =</span> <span class="st">"Interval"</span>, <span class="at">values_to =</span> <span class="st">"Time"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<section id="variable-descriptions-for-x500sdata-and-x100sdata" class="level4">
+<h4 class="anchored" data-anchor-id="variable-descriptions-for-x500sdata-and-x100sdata">Variable Descriptions for <code>x500sData</code> and <code>x100sData</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ID</code></td>
+<td>ID indicating athlete</td>
+</tr>
+<tr class="even">
+<td><code>Average</code></td>
+<td>Average time per 500m for each interval.</td>
+</tr>
+<tr class="odd">
+<td><code>IntervalX</code></td>
+<td>Average time for 500m for that interval.</td>
+</tr>
+<tr class="even">
+<td><code>Rate</code></td>
+<td>Average strokes per minute during the piece.</td>
+</tr>
+<tr class="odd">
+<td><code>Trial</code></td>
+<td>Number indicating which number trial the piece is (first of the season, second, third).</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> x500_long, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> Trial, <span class="at">color =</span> <span class="fu">factor</span>(Trial))) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> x500_line, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Mean, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">group =</span> Trial, <span class="at">color =</span> <span class="fu">factor</span>(Trial)),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"purple"</span>, <span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>), <span class="at">name =</span> <span class="st">"Average of Trial:"</span>) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Seconds per 500 meters"</span>, <span class="at">colour =</span> <span class="st">"AverageTrial"</span>, <span class="at">title =</span> <span class="st">"7x500 meter Intervals"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data collected for St. Lawrence University Crew Team Winter 2026"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> x500_long, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> Trial, <span class="at">colour =</span> <span class="fu">factor</span>(Trial))) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> x500_line, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Mean, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">group =</span> Trial, <span class="at">colour =</span> <span class="fu">factor</span>(Trial)),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"purple"</span>, <span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>), <span class="at">name =</span> <span class="st">"Average of Trial:"</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Seconds per 500 meters"</span>, <span class="at">colour =</span> <span class="st">"AverageTrial"</span>, <span class="at">title =</span> <span class="st">"7x500 meter Intervals"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data collected for St. Lawrence University Crew Team Winter 2026"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -189,249 +183,51 @@ time (7): Goal, Average, Interval1, Interval2, Interval3, Interval4, Interval5
 </div>
 </div>
 </div>
+<p>The team completed a 7x500m interval piece three times throughout their winter training period. <code>Trial</code> indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. The points show each individual data point for each interval, coloured by which trial it was completed during. The three lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. One interesting note is that, despite there being a general trend of athletes slowing down throughout the piece, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes “putting it all out there” knowing that it is their last interval and using that to go faster.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pred_10k_2k <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"pred_10k_2k.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first10k =</span> <span class="fu">as.numeric</span>(first10k)) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">second10k =</span> <span class="fu">as.numeric</span>(second10k)) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">k2 =</span> <span class="fu">as.numeric</span>(k2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 15 Columns: 6
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): ID
-dbl  (2): class_year, v1
-time (3): first10k, second10k, k2
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pred_10k_2k, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> k2)) <span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Final-Project-Working_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod_2k_basic <span class="ot">&lt;-</span> <span class="fu">lm</span>(k2 <span class="sc">~</span> second10k, <span class="at">data =</span> pred_10k_2k)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mod_2k_basic <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 5
-  term        estimate std.error statistic    p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-1 (Intercept) 1593.    3275.         0.486 0.635     
-2 second10k      0.170    0.0205     8.30  0.00000149</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k_basic, <span class="at">terms =</span> <span class="st">"second10k"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># Predicted values of k2
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  26882.80 | 26300.29, 27465.31
-   153960 |  27738.71 | 27322.18, 28155.25
-   154080 |  27759.09 | 27345.86, 28172.33
-   155700 |  28034.21 | 27660.96, 28407.46
-   156240 |  28125.91 | 27763.82, 28488.00
-   161940 |  29093.91 | 28756.22, 29431.61
-   162840 |  29246.76 | 28896.11, 29597.41
-   174180 |  31172.57 | 30460.81, 31884.33</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Not all rows are shown in the output. Use `print(..., n = Inf)` to show
-  all rows.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(mod_2k_basic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squared sigma statistic    p.value    df logLik   AIC   BIC
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     0.841         0.829  582.      68.9 0.00000149     1  -116.  237.  240.
-# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k_basic, <span class="at">terms =</span> <span class="st">"second10k"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 15 × 6
-   second10k predicted std.error conf.low conf.high group
-       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
- 1    148920    26883.      270.   26300.    27465. 1    
- 2    153180    27606.      203.   27167.    28045. 1    
- 3    153960    27739.      193.   27322.    28155. 1    
- 4    154080    27759.      191.   27346.    28172. 1    
- 5    155460    27993.      175.   27615.    28372. 1    
- 6    155700    28034.      173.   27661.    28407. 1    
- 7    156000    28085.      170.   27718.    28452. 1    
- 8    156240    28126.      168.   27764.    28488. 1    
- 9    159720    28717.      150.   28392.    29042. 1    
-10    161940    29094.      156.   28756.    29432. 1    
-11    162000    29104.      157.   28766.    29443. 1    
-12    162840    29247.      162.   28896.    29597. 1    
-13    170340    30520.      262.   29954.    31086. 1    
-14    173280    31020.      313.   30343.    31696. 1    
-15    174180    31173.      329.   30461.    31884. 1    </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pred_time_basic <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(mod_2k_basic, <span class="at">terms =</span> <span class="st">"second10k"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pred_10k_2k <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"pred_10k_2k.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first10k =</span> <span class="fu">as.numeric</span>(first10k)) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">second10k =</span> <span class="fu">as.numeric</span>(second10k)) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">k2 =</span> <span class="fu">as.numeric</span>(k2)) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">k2 =</span> k2<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first10k =</span> first10k<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">second10k =</span> second10k<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="fu">recode</span>(v1, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Yes"</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>mod_2k <span class="ot">&lt;-</span> <span class="fu">lm</span>(k2 <span class="sc">~</span> second10k <span class="sc">+</span> v1, <span class="at">data =</span> pred_10k_2k)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>mod_2k <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(mod_2k)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>, <span class="st">"v1"</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>, <span class="st">"v1"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>pred_time <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>,  <span class="st">"v1"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="fu">recode</span>(v1, <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"No"</span>, <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"Yes"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>pred_time <span class="ot">&lt;-</span> pred_time <span class="sc">|&gt;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(v1, second10k) <span class="sc">|&gt;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="fu">factor</span>(v1, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mod_2k <span class="ot">&lt;-</span> <span class="fu">lm</span>(k2 <span class="sc">~</span> second10k <span class="sc">+</span> class_year <span class="sc">+</span> v1, <span class="at">data =</span> pred_10k_2k)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mod_2k <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 5
-  term        estimate std.error statistic  p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept) 6951.    4224.         1.65  0.128   
-2 second10k      0.140    0.0245     5.72  0.000135
-3 class_year  -115.     135.        -0.850 0.413   
-4 v1          -687.     317.        -2.17  0.0532  </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(mod_2k)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 12
-  r.squared adj.r.squared sigma statistic   p.value    df logLik   AIC   BIC
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     0.889         0.859  529.      29.4 0.0000150     3  -113.  236.  240.
-# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>, <span class="st">"class_year"</span>, <span class="st">"v1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># Predicted values of k2
-
-class_year: 1
-v1: 0
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  27739.22 | 26515.25, 28963.19
-   154080 |  28463.49 | 27469.24, 29457.74
-   156240 |  28766.67 | 27860.37, 29672.97
-   174180 |  31284.78 | 30587.70, 31981.86
-
-class_year: 1
-v1: 1
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  27052.64 | 26103.53, 28001.76
-   154080 |  27776.91 | 27010.47, 28543.36
-   156240 |  28080.10 | 27371.29, 28788.91
-   174180 |  30598.21 | 29676.77, 31519.64
-
-class_year: 2
-v1: 0
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  27624.67 | 26616.90, 28632.44
-   154080 |  28348.94 | 27577.51, 29120.37
-   156240 |  28652.12 | 27970.04, 29334.21
-   174180 |  31170.23 | 30507.34, 31833.12
-
-class_year: 2
-v1: 1
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  26938.10 | 26208.07, 27668.12
-   154080 |  27662.37 | 27106.83, 28217.90
-   156240 |  27965.55 | 27454.78, 28476.32
-   174180 |  30483.66 | 29525.97, 31441.34
-
-class_year: 3
-v1: 0
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  27510.12 | 26668.16, 28352.09
-   154080 |  28234.39 | 27620.01, 28848.77
-   156240 |  28537.58 | 28003.84, 29071.32
-   174180 |  31055.68 | 30301.56, 31809.81
-
-class_year: 3
-v1: 1
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  26823.55 | 26239.72, 27407.38
-   154080 |  27547.82 | 27094.39, 28001.25
-   156240 |  27851.00 | 27409.26, 28292.75
-   174180 |  30369.11 | 29291.58, 31446.64
-
-class_year: 4
-v1: 0
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  27395.57 | 26635.31, 28155.84
-   154080 |  28119.85 | 27540.52, 28699.17
-   156240 |  28423.03 | 27893.58, 28952.47
-   174180 |  30941.14 | 30006.37, 31875.90
-
-class_year: 4
-v1: 1
-
-second10k | Predicted |             95% CI
-------------------------------------------
-   148920 |  26709.00 | 26139.30, 27278.70
-   154080 |  27433.27 | 26905.67, 27960.88
-   156240 |  27736.45 | 27184.01, 28288.90
-   174180 |  30254.56 | 28997.28, 31511.85</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Not all rows are shown in the output. Use `print(..., n = Inf)` to show
-  all rows.</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>, <span class="st">"class_year"</span>, <span class="st">"v1"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 120 × 7
-   second10k predicted std.error conf.low conf.high class_year v1   
-       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;      &lt;fct&gt;
- 1    148920    27739.      556.   26515.    28963. 1          0    
- 2    148920    27053.      431.   26104.    28002. 1          1    
- 3    148920    27625.      458.   26617.    28632. 2          0    
- 4    148920    26938.      332.   26208.    27668. 2          1    
- 5    148920    27510.      383.   26668.    28352. 3          0    
- 6    148920    26824.      265.   26240.    27407. 3          1    
- 7    148920    27396.      345.   26635.    28156. 4          0    
- 8    148920    26709.      259.   26139.    27279. 4          1    
- 9    153180    28337.      469.   27305.    29370. 1          0    
-10    153180    27651.      361.   26856.    28445. 1          1    
-# ℹ 110 more rows</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pred_time <span class="ot">&lt;-</span> <span class="fu">ggpredict</span>(mod_2k, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"second10k"</span>, <span class="st">"class_year"</span>, <span class="st">"v1"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="at">terms_to_colnames =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pred_10k_2k, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> k2)) <span class="sc">+</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> class_year) <span class="sc">+</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted, </span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">group =</span> <span class="fu">interaction</span>(class_year, v1), </span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">color =</span> <span class="fu">factor</span>(v1)), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted,</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">group =</span> <span class="fu">interaction</span>(class_year, v1),</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">"v1"</span>, <span class="at">fill =</span> <span class="st">"v1"</span>, <span class="at">caption =</span> <span class="st">"Data collected for St. Lawrence University Crew Team Winter 2026"</span>) <span class="sc">+</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Combining variables of class &lt;numeric&gt; and &lt;factor&gt; was deprecated in ggplot2
-3.4.0.
-ℹ Please ensure your variables are compatible before plotting (location:
-  `combine_vars()`)</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pred_10k_2k, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> k2)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">group =</span> <span class="fu">interaction</span>(v1), </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">group =</span> <span class="fu">interaction</span>(v1),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Varsity Boat"</span>, <span class="at">fill =</span> <span class="st">"Varsity Boat"</span>, <span class="at">y =</span> <span class="st">"2k time (in seconds)"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data collected for St. Lawrence University Crew Team Winter 2026"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"10k time (in seconds)"</span>, <span class="at">title =</span> <span class="st">"Predicting 2k time based on 10k time and Varsity Boat Status"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -440,6 +236,12 @@ Not all rows are shown in the output. Use `print(..., n = Inf)` to show
 </div>
 </div>
 </div>
+<p>The coefficient of 0.152 for 10k time indicates that predicted 2k time increases, on average, by 0.15 seconds for each additional second increase in 10k time, as long as varsity boat status is held constant. This makes sense as athletes that are faster in a 10k will have generally faster 2k times, but not by the same rate as the duration of the piece impacts the ability of an athlete to pace appropriately.</p>
+<p>There may be cause for concern related to collinearity if you assume that varsity athletes will also have faster 10k times. This means that there is a chance that the <code>v1</code> variable would be confounded and it is important to check the correlation between the variables. After an analysis of the variables, it is shown that **</p>
+<p>second10k (β = 0.152, p &lt; .001) For every additional second in the second 10k split, predicted 2k time increases by about 0.15 seconds, holding varsity status constant. This is highly significant and the strongest predictor in the model. It makes intuitive sense — athletes who fade in the back half of a 10k tend to have slower 2k times, likely reflecting aerobic capacity or pacing discipline. v1Yes (β = −10.2, p = .065) Varsity athletes are predicted to be about 10 seconds faster on the 2k than non-varsity athletes, holding second10k split constant. This is marginally significant — it doesn’t clear the conventional α = .05 threshold, but a 10-second difference is a large and practically meaningful effect in rowing. The borderline p-value likely reflects low sample size rather than a negligible true effect. Worth keeping in the model.</p>
+<p>A few things worth noting:</p>
+<p>The intercept’s large standard error (55.6) and the relatively large SE on v1Yes (5.02) compared to the estimate suggest the model may be working with a fairly small sample — do you know your n? second10k having such a tight SE (0.0204) relative to its estimate suggests it’s a very stable, reliable predictor. If you haven’t already, it may be worth checking whether the v1/v1No effect is confounded — varsity athletes likely also have faster second 10k splits, so there could be collinearity worth examining (via VIF or correlation between predictors).</p>
+</section>
 
 </main>
 <!-- /main column -->
