@@ -1,6 +1,26 @@
-# 334 Final Project
-This is a final project for Data Visualization STAT/DATA 334.
+# README
 
-It uses collegiate rowing team's winter training data and analyzes it so that athletes can assess their own fitness and where they are at during winter training when they cannot be on the water.
 
-The project uses many different concepts learned throughout STAT/DATA 334 and impliments them into appealing visualizations for athletes to use.
+## Data
+
+The data was collected from the St. Lawrence University Women’s Rowing
+Team during their 2026 winter training period.
+
+The women’s rowing team ergs five times a week and records data on each
+piece that they complete including interval pieces and longer steady
+state pieces that build fitness and test pieces that show where their
+performance is at. This data includes 7x500m intervals, 5x1000m
+intervals, 2k test pieces, and 10k test pieces.
+
+## Questions of Interest
+
+1.  How do athletes fare during many short interval pieces compared to
+    fewer, longer intervals?
+
+    -\> is there a similar trend between 7x500 and 5x1000?
+
+    - what could be the explanation for these trends?
+
+2.  What variables best predict 2k time?
+
+    - and what does that prediction look like?
