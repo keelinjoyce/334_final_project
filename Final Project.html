@@ -8,7 +8,7 @@
 
 <meta name="author" content="Keelin Joyce">
 
-<title>Final Project</title>
+<title>334 Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Final Project</h1>
+<h1 class="title">334 Final Project</h1>
 </div>
 
 
@@ -151,6 +151,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">second10k =</span> second10k<span class="sc">/</span><span class="dv">60</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="fu">case_when</span>(v1 <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"No"</span>, v1 <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Yes"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="data-and-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-motivation">Data and Motivation</h2>
+<p>The data was collected from the St.&nbsp;Lawrence University Women’s Rowing Team during their 2026 winter training period. Training and practicing during the winter is proven to be difficult for rowing and most climates, especially the North Country, force rowers indoors for the season. The most common practice during the winter training period in rowing is the ergometer, commonly called an erg. The erg mimics the stroke that rowers take in the boat and instantly displays performance metrics to the rower. Metrics shown include the total time and distance of the workout, split per 500m (how long, in minutes and seconds, it takes the rower to complete 500m), and the stroke rate per minute.</p>
+<p>The women’s rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.</p>
 <section id="variable-descriptions-for-x500sdata-and-x1000sdata" class="level4">
 <h4 class="anchored" data-anchor-id="variable-descriptions-for-x500sdata-and-x1000sdata">Variable Descriptions for <code>x500sData</code> and <code>x1000sData</code></h4>
 <table class="caption-top table">
@@ -259,6 +264,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="visualizations-and-interpretations">Visualizations and Interpretations</h2>
 <section id="interval-averages" class="level4">
 <h4 class="anchored" data-anchor-id="interval-averages">Interval Averages</h4>
+<p>The team completed a 7x500m interval piece three times throughout their winter training period and a 5x1000m interval piece twice in this time. <code>Trial</code> indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. 5x1000m intervals were completed twice and use the same setup with a 4 minute rest between intervals.</p>
+<p>The points show each individual data point for each interval, coloured by which trial it was completed during. The lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. A positive slope indicates a slowing down in pace as the y-axis measures total time taken to complete the interval.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> x500_long, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> Trial, <span class="at">colour =</span> <span class="fu">factor</span>(Trial))) <span class="sc">+</span></span>
@@ -275,6 +282,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 </div>
+</div>
+<p>One interesting note is that, despite there being a general trend of athletes slowing down throughout the pieces, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes “putting it all out there” knowing that it is their last interval and using that to go faster.</p>
+<div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> x1000_long, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Time)) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> Trial, <span class="at">colour =</span> <span class="fu">factor</span>(Trial))) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> x1000_line, <span class="fu">aes</span>(<span class="at">x =</span> Interval, <span class="at">y =</span> Mean, </span>
@@ -286,12 +296,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The team completed a 7x500m interval piece three times throughout their winter training period and a 5x1000m interval piece twice in this time. <code>Trial</code> indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. The points show each individual data point for each interval, coloured by which trial it was completed during. The three lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. One interesting note is that, despite there being a general trend of athletes slowing down throughout the piece, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes “putting it all out there” knowing that it is their last interval and using that to go faster.</p>
 </section>
 </section>
 <section id="linear-regression-for-2k-time" class="level2">
@@ -313,28 +322,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(v1, second10k) <span class="sc">|&gt;</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">v1 =</span> <span class="fu">factor</span>(v1, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mod_2k <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic    p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 (Intercept)   79.8     55.6         1.44 0.176     
+2 second10k      0.152    0.0204      7.42 0.00000809
+3 v1Yes        -10.2      5.02       -2.03 0.0649    </code></pre>
+</div>
+</div>
 <p>The coefficient of 0.152 for <code>second10k</code> time indicates that predicted 2k time increases, on average, by 0.15 seconds for each additional second increase in 10k time, as long as varsity boat status is held constant. This makes sense as athletes that are faster in a 10k will have generally faster 2k times, but not by the same rate as the duration of the piece impacts the pace of an athlete.</p>
 <p>The coefficient of -10.2 for the <code>v1</code> variable indicates that athletes in the varsity boat are, on average, going to be about 10 seconds faster in their 2k than those that are not. The p-value is marginally significant but most likely reflects the smaller sample size rather than a lack of effect. The 10 second difference in time is large enough to be meaningful despite the larger p-value.</p>
 <p>There may be cause for concern related to collinearity if you assume that varsity athletes will also have faster 10k times. This means that there is a chance that the <code>v1</code> variable would be confounded and it is important to check the correlation between the variables. After an analysis of the variables, it is shown that there is not a concern regarding the collinearity between the <code>v1</code> and <code>second10k</code>. The point biserial correlation between the two variables is |-0.438| which is in the ideal range of 0.3-0.7 indicating that there is no need to worry about the collinearity between variables. This is most likely due ot the fact that the varsity boat athletes are typically indicated by their 2k time and not 10k and there is a disparity in athletes that have a faster 10k compared to 2k. This is because 2k tests require more brute strength while a 10k tests the aerobic endurance of an athlete so athletes are usually higher performers in one compared to another.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pred_10k_2k, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> k2)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">group =</span> <span class="fu">interaction</span>(v1), </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">group =</span> <span class="fu">interaction</span>(v1),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Varsity Boat"</span>, <span class="at">fill =</span> <span class="st">"Varsity Boat"</span>, <span class="at">y =</span> <span class="st">"2k time (in seconds)"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data collected from St. Lawrence University Crew Team Winter 2026"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"10k time (in seconds)"</span>, <span class="at">title =</span> <span class="st">"Predicting 2k time based on 10k time and Varsity Boat Status"</span>) <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pred_10k_2k, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> k2)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">group =</span> <span class="fu">interaction</span>(v1), </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">colour =</span> <span class="fu">factor</span>(v1)), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> pred_time, <span class="fu">aes</span>(<span class="at">x =</span> second10k, <span class="at">y =</span> predicted,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> conf.low, <span class="at">ymax =</span> conf.high, <span class="at">group =</span> <span class="fu">interaction</span>(v1),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="fu">factor</span>(v1)), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Varsity Boat"</span>, <span class="at">fill =</span> <span class="st">"Varsity Boat"</span>, <span class="at">y =</span> <span class="st">"2k time (in seconds)"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Data collected from St. Lawrence University Crew Team Winter 2026"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"10k time (in seconds)"</span>, <span class="at">title =</span> <span class="st">"Predicting 2k time based on 10k time and Varsity Boat Status"</span>) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"steelblue"</span>, <span class="st">"darkorange"</span>)) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Final-Project_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Final-Project_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

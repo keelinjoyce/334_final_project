@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Keelin Joyce">
-  <title>Final Project Presentation</title>
+  <title>Erg Data: Final Project Presentation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -127,7 +127,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Final Project Presentation</h1>
+  <h1 class="title">Erg Data: Final Project Presentation</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -140,11 +140,16 @@ Keelin Joyce
 </section>
 <section id="data-introduction" class="slide level2">
 <h2>Data Introduction</h2>
-<h4 id="variable-descriptions-for-x500sdata-and-x100sdata">Variable Descriptions for <code>x500sData</code> and <code>x100sData</code></h4>
+<p>The data was collected from the St.&nbsp;Lawrence University Women’s Rowing Team during their 2026 winter training period.</p>
+<p>The women’s rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.</p>
+</section>
+<section id="data-introduction-1" class="slide level2">
+<h2>Data Introduction</h2>
+<h4 id="variable-descriptions">Variable Descriptions</h4>
 <table class="caption-top">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 73%">
+<col style="width: 27%">
+<col style="width: 72%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -170,14 +175,54 @@ Keelin Joyce
 <td>Average strokes per minute during the piece (not included in 1000s).</td>
 </tr>
 <tr class="odd">
+<td><code>ClassYear</code></td>
+<td>What year the athlete is (Freshman, Sophomore, Junior, Senior)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-introduction-2" class="slide level2">
+<h2>Data Introduction</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Interval</code></td>
+<td>Which interval (of 7 or 5) the time is for.</td>
+</tr>
+<tr class="even">
+<td><code>Time</code></td>
+<td>Time (in seconds) for that interval.</td>
+</tr>
+<tr class="odd">
 <td><code>Trial</code></td>
 <td>Number indicating which number trial the piece is (first of the season, second, third).</td>
+</tr>
+<tr class="even">
+<td><code>Mean</code></td>
+<td>Average time of all athletes per 500m for that interval and trial.</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="questions-of-interest" class="slide level2">
 <h2>Questions of Interest</h2>
+<ol type="1">
+<li><p>How do athletes fare during many short interval pieces compared to fewer, longer intervals?</p>
+<p>-&gt; is there a similar trend between 7x500 and 5x1000?</p>
+<p>-&nbsp;what could be the explanation for these trends?</p></li>
+<li><p>What variables best predict 2k time?</p>
+<p>-&nbsp;and what does that prediction look like?</p></li>
+</ol>
 </section>
 <section id="x500m-intervals" class="slide level2">
 <h2>7x500m Intervals</h2>

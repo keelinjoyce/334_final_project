@@ -1,5 +1,5 @@
 ---
-title: "Final Project"
+title: "334 Final Project"
 author: "Keelin Joyce"
 format: html
 editor: visual
@@ -53,6 +53,11 @@ pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
   mutate(v1 = case_when(v1 == 0 ~ "No", v1 == 1 ~ "Yes"))
 ```
 
+## Data and Motivation
+The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period. Training and practicing during the winter is proven to be difficult for rowing and most climates, especially the North Country, force rowers indoors for the season. The most common practice during the winter training period in rowing is the ergometer, commonly called an erg. The erg mimics the stroke that rowers take in the boat and instantly displays performance metrics to the rower. Metrics shown include the total time and distance of the workout, split per 500m (how long, in minutes and seconds, it takes the rower to complete 500m), and the stroke rate per minute.
+
+The women's rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.
+
 #### Variable Descriptions for `x500sData` and `x1000sData`
 | Variable | Description |
 |-------------------|-----------------------------------------------------|
@@ -80,8 +85,10 @@ pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
 
 
 ## Visualizations and Interpretations
-
 #### Interval Averages
+The team completed a 7x500m interval piece three times throughout their winter training period and a 5x1000m interval piece twice in this time. `Trial` indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. 5x1000m intervals were completed twice and use the same setup with a 4 minute rest between intervals.
+
+The points show each individual data point for each interval, coloured by which trial it was completed during. The lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. A positive slope indicates a slowing down in pace as the y-axis measures total time taken to complete the interval.
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
@@ -91,7 +98,10 @@ ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals",
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
   theme_minimal()
+```
+One interesting note is that, despite there being a general trend of athletes slowing down throughout the pieces, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes "putting it all out there" knowing that it is their last interval and using that to go faster.
 
+```{r}
 ggplot(data = x1000_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
   geom_line(data = x1000_line, aes(x = Interval, y = Mean, 
@@ -101,7 +111,6 @@ ggplot(data = x1000_long, aes(x = Interval, y = Time)) +
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
   theme_minimal()
 ```
-The team completed a 7x500m interval piece three times throughout their winter training period and a 5x1000m interval piece twice in this time. `Trial` indicates which session the piece was completed during. 7x500m means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals. The points show each individual data point for each interval, coloured by which trial it was completed during. The three lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. One interesting note is that, despite there being a general trend of athletes slowing down throughout the piece, the 7th interval is a little faster than the 6th in each trial. This is most likely explained by athletes "putting it all out there" knowing that it is their last interval and using that to go faster.
 
 ## Linear Regression for 2k Time
 ```{r}
@@ -124,6 +133,11 @@ pred_time <- ggpredict(mod_2k, terms = c("second10k",  "v1")) |>
   arrange(v1, second10k) |>
   mutate(v1 = factor(v1, levels = c("No", "Yes")))
 ```
+
+```{r}
+mod_2k |> tidy()
+```
+
 The coefficient of 0.152 for `second10k` time indicates that predicted 2k time increases, on average, by 0.15 seconds for each additional second increase in 10k time, as long as varsity boat status is held constant. This makes sense as athletes that are faster in a 10k will have generally faster 2k times, but not by the same rate as the duration of the piece impacts the pace of an athlete. 
 
 The coefficient of -10.2 for the `v1` variable indicates that athletes in the varsity boat are, on average, going to be about 10 seconds faster in their 2k than those that are not. The p-value is marginally significant but most likely reflects the smaller sample size rather than a lack of effect. The 10 second difference in time is large enough to be meaningful despite the larger p-value.

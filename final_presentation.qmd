@@ -1,5 +1,5 @@
 ---
-title: "Final Project Presentation"
+title: "Erg Data: Final Project Presentation"
 author: "Keelin Joyce"
 format: revealjs
 editor: visual
@@ -37,22 +37,45 @@ x1000_line <- x1000_long |> group_by(Trial, Interval) |>
   summarise(Mean = (mean(Time)))
 ```
 
+## Data Introduction
+The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period. 
+
+The women's rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.
 
 ## Data Introduction
-#### Variable Descriptions for `x500sData` and `x100sData`
+#### Variable Descriptions
+
 | Variable | Description |
-|-------------------|-----------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | `ID` | Number indicating athlete |
 | `Average` | Average time per 500m for each interval. |
 | `IntervalX` | Average time for 500m for that interval. |
 | `Rate` | Average strokes per minute during the piece (not included in 1000s). |
+| `ClassYear` | What year the athlete is (Freshman, Sophomore, Junior, Senior) |
+
+## Data Introduction
+
+| Variable | Description |
+|--------------------|----------------------------------------------------|
+| `Interval` | Which interval (of 7 or 5) the time is for. |
+| `Time` | Time (in seconds) for that interval. |
 | `Trial` | Number indicating which number trial the piece is (first of the season, second, third). |
+| `Mean` | Average time of all athletes per 500m for that interval and trial. |
 
 ## Questions of Interest
 
+1.  How do athletes fare during many short interval pieces compared to fewer, longer intervals?
 
+    -\> is there a similar trend between 7x500 and 5x1000?
+
+    -\ what could be the explanation for these trends?
+
+2.  What variables best predict 2k time?
+
+    -\ and what does that prediction look like?
 
 ## 7x500m Intervals
+
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
@@ -65,6 +88,7 @@ ggplot(data = x500_long, aes(x = Interval, y = Time)) +
 ```
 
 ## 5x1000m Intervals
+
 ```{r}
 ggplot(data = x1000_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
@@ -77,6 +101,7 @@ ggplot(data = x1000_long, aes(x = Interval, y = Time)) +
 ```
 
 ## Linear Regression Visualization
+
 ```{r}
 #| warning: false
 #| output: false
@@ -126,3 +151,4 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   scale_fill_manual(values = c("steelblue", "darkorange")) +
   theme_minimal(base_size = 20)
 ```
+
