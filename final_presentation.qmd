@@ -1,6 +1,5 @@
 ---
-title: "Erg Data: Final Project Presentation"
-author: "Keelin Joyce"
+title: "Winter Training 2026 Analysis"
 format: revealjs
 editor: visual
 ---
@@ -38,6 +37,9 @@ x1000_line <- x1000_long |> group_by(Trial, Interval) |>
 ```
 
 ## Data Introduction
+Training and practicing during the winter is proven to be difficult for rowing and most climates, especially the North Country, force rowers indoors for the season. The most common practice during the winter training period in rowing is the ergometer, commonly called an erg. The erg mimics the stroke that rowers take in the boat and instantly displays performance metrics to the rower. Metrics shown include the total time and distance of the workout, split per 500m (how long, in minutes and seconds, it takes the rower to complete 500m), and the stroke rate per minute.
+
+## Data Introduction
 The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period. 
 
 The women's rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.
@@ -68,11 +70,11 @@ The women's rowing team ergs five times a week and records data on each piece th
 
     -\> is there a similar trend between 7x500 and 5x1000?
 
-    -\ what could be the explanation for these trends?
+    -\> what could be the explanation for these trends?
 
 2.  What variables best predict 2k time?
 
-    -\ and what does that prediction look like?
+    -\> and what does that prediction look like?
 
 ## 7x500m Intervals
 

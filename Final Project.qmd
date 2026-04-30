@@ -143,7 +143,8 @@ The coefficient of 0.152 for `second10k` time indicates that predicted 2k time i
 The coefficient of -10.2 for the `v1` variable indicates that athletes in the varsity boat are, on average, going to be about 10 seconds faster in their 2k than those that are not. The p-value is marginally significant but most likely reflects the smaller sample size rather than a lack of effect. The 10 second difference in time is large enough to be meaningful despite the larger p-value.
 
 There may be cause for concern related to collinearity if you assume that varsity athletes will also have faster 10k times. This means that there is a chance that the `v1` variable would be confounded and it is important to check the correlation between the variables.
-After an analysis of the variables, it is shown that there is not a concern regarding the collinearity between the `v1` and `second10k`. The point biserial correlation between the two variables is |-0.438| which is in the ideal range of 0.3-0.7 indicating that there is no need to worry about the collinearity between variables. This is most likely due ot the fact that the varsity boat athletes are typically indicated by their 2k time and not 10k and there is a disparity in athletes that have a faster 10k compared to 2k. This is because 2k tests require more brute strength while a 10k tests the aerobic endurance of an athlete so athletes are usually higher performers in one compared to another.
+
+After an analysis of the variables, it is shown that there is not a concern regarding the collinearity between the `v1` and `second10k`. The point biserial correlation between the two variables is |-0.438| which is in the ideal range of 0.3-0.7 indicating that there is no need to worry about the collinearity between variables. This is most likely due ot the fact that the varsity boat athletes are typically indicated by their 2k time and not 10k and there is a disparity in athletes that have a faster 10k compared to 2k. This is because 2k tests require more brute strength while a 10k tests the aerobic endurance of an athlete so athletes are usually higher performers in one compared to another and not both.
 
 ```{r}
 ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
@@ -163,4 +164,11 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
 ```
 
 
+## Conclusion
+#### Final Analysis
 
+
+#### Potential Drawbacks
+One of the main considerations when using this data is that there is a very small sample size. The team only consists of about 20 athletes and although most complete each piece, there are still some missing data points due to injury, illness, and absences. A small sample size limits the amount of analysis that can be done.
+
+Because the sample all came from one team there is limited variance in how the pieces are completed. This is because all of the athletes have the same coach (so they are all encouraged in the same way and have the same motivations), they are all using the same winter training schedule, and they use 
