@@ -37,9 +37,14 @@ intervals, 2k test pieces, and 10k test pieces.
 
     -\> and what does that prediction look like?
 
-## Graphs
+## Visualization Examples
 
 #### 7x500m Intervals
+
+The team completed a 7x500m interval piece three times throughout their
+winter training period. This means that athletes erg 500 meters as fast
+as they can and then rest for approximately 2 minutes before erging
+another 500 meters. This is repeated for 7 intervals.
 
 ``` r
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
@@ -54,20 +59,12 @@ ggplot(data = x500_long, aes(x = Interval, y = Time)) +
 
 ![](README_files/figure-commonmark/unnamed-chunk-2-1.png)
 
-#### 5x1000m Intervals
-
-``` r
-ggplot(data = x1000_long, aes(x = Interval, y = Time)) +
-  geom_point(aes(group = Trial, colour = factor(Trial))) +
-  geom_line(data = x1000_line, aes(x = Interval, y = Mean, 
-                                   group = Trial, colour = factor(Trial)),linewidth = 1.5) +
-  scale_colour_manual(values = c("purple", "darkorange"), name = "Average of Trial:") +
-  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "5x1000 meter Intervals",
-       caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
-  theme_minimal(base_size = 14)
-```
-
-![](README_files/figure-commonmark/unnamed-chunk-3-1.png)
+The points show each individual data point for each interval, coloured
+by which trial it was completed during. The lines indicate the average
+of the team for each interval during each trial. They show that, in
+general, the team got faster each trial. A positive slope indicates a
+slowing down in pace as the y-axis measures total time taken to complete
+the interval.
 
 #### Linear Regression Visualization
 
@@ -88,4 +85,12 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   theme_minimal(base_size = 14)
 ```
 
-![](README_files/figure-commonmark/unnamed-chunk-5-1.png)
+![](README_files/figure-commonmark/unnamed-chunk-4-1.png)
+
+After an analysis of multiple models, varsity boat status and 10k time
+were found to be the best predictors for 2k times of an athlete. There
+is a positive correlation between 10k time and predicted 2k time.
+Predicted 2k time increases, on average, by 0.15 seconds for each
+additional second increase in 10k time, as long as varsity boat status
+is held constant. Athletes in the varsity boat are, on average, going to
+be about 10 seconds faster in their 2k than those that are not.
