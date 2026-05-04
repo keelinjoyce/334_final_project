@@ -2231,10 +2231,83 @@ vertical-align: -.125em;
 </header>
 
 
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>This project is an analysis of the St. Lawrence University Women’s Rowing Team’s winter training erg data, as well as a comparison to previous year’s data. The data was collected from each erg piece during winter training and compiled into different data sets by workout. The project compares times and averages of interval pieces of varying lengths as well as creating a linear regression to predict an athlete’s 2k time. It also looks at the 2k test piece progression of 2026 senior athletes. The project includes visualizations to answer questions of interest as well as detailed explanations of the trends seen.</p>
+</section>
 <section id="data-and-motivation" class="level2">
 <h2 class="anchored" data-anchor-id="data-and-motivation">Data and Motivation</h2>
 <p>The data was collected from the St. Lawrence University Women’s Rowing Team during their 2026 winter training period. Training and practicing during the winter is proven to be difficult for rowing and most climates, especially the North Country, force rowers indoors for the season. The most common practice during the winter training period in rowing is the ergometer, commonly called an erg. The erg mimics the stroke that rowers take in the boat and instantly displays performance metrics to the rower. Metrics shown include the total time and distance of the workout, split per 500m (how long, in minutes and seconds, it takes the rower to complete 500m), and the stroke rate per minute.</p>
 <p>The women’s rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.</p>
+<section id="variable-descriptions-for-variables-across-all-data-sets" class="level4">
+<h4 class="anchored" data-anchor-id="variable-descriptions-for-variables-across-all-data-sets">Variable descriptions for variables across all data sets</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ID</code></td>
+<td>Number indicating athlete</td>
+</tr>
+<tr class="even">
+<td><code>Average</code></td>
+<td>Average time per 500m for each interval.</td>
+</tr>
+<tr class="odd">
+<td><code>IntervalX</code></td>
+<td>Average time for 500m for that interval.</td>
+</tr>
+<tr class="even">
+<td><code>Rate</code></td>
+<td>Average strokes per minute during the piece (not included in 1000s).</td>
+</tr>
+<tr class="odd">
+<td><code>ClassYear</code></td>
+<td>What year the athlete is (Freshman, Sophomore, Junior, Senior)</td>
+</tr>
+<tr class="even">
+<td><code>Interval</code></td>
+<td>Which interval (of 7 or 5) the time is for.</td>
+</tr>
+<tr class="odd">
+<td><code>Time</code></td>
+<td>Time (in seconds) for that interval.</td>
+</tr>
+<tr class="even">
+<td><code>Trial</code></td>
+<td>Number indicating which number trial the piece is (first of the season, second, third).</td>
+</tr>
+<tr class="odd">
+<td><code>Mean</code></td>
+<td>Average time of all athletes per 500m for that interval and trial.</td>
+</tr>
+<tr class="even">
+<td><code>Name</code></td>
+<td>Number indicating athlete</td>
+</tr>
+<tr class="odd">
+<td><code>Piece</code></td>
+<td>Two letters indicating class year and one digit indicating which trial of that training period.</td>
+</tr>
+<tr class="even">
+<td><code>Time</code></td>
+<td>Total time to complete 2k (in minutes:seconds)</td>
+</tr>
+<tr class="odd">
+<td><code>Class</code></td>
+<td>Year of collegiate career the piece was completed during.</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="questions-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="questions-of-interest">Questions of Interest</h2>
@@ -2335,75 +2408,6 @@ vertical-align: -.125em;
 <span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">Class =</span> <span class="fu">factor</span>(Class, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Freshman&quot;</span>,<span class="st">&quot;Sophomore&quot;</span>,<span class="st">&quot;Junior&quot;</span>,<span class="st">&quot;Senior&quot;</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Name)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="variable-descriptions-for-variables-across-all-data-sets" class="level4">
-<h4 class="anchored" data-anchor-id="variable-descriptions-for-variables-across-all-data-sets">Variable descriptions for variables across all data sets</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 29%">
-<col style="width: 70%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Variable</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>ID</code></td>
-<td>Number indicating athlete</td>
-</tr>
-<tr class="even">
-<td><code>Average</code></td>
-<td>Average time per 500m for each interval.</td>
-</tr>
-<tr class="odd">
-<td><code>IntervalX</code></td>
-<td>Average time for 500m for that interval.</td>
-</tr>
-<tr class="even">
-<td><code>Rate</code></td>
-<td>Average strokes per minute during the piece (not included in 1000s).</td>
-</tr>
-<tr class="odd">
-<td><code>ClassYear</code></td>
-<td>What year the athlete is (Freshman, Sophomore, Junior, Senior)</td>
-</tr>
-<tr class="even">
-<td><code>Interval</code></td>
-<td>Which interval (of 7 or 5) the time is for.</td>
-</tr>
-<tr class="odd">
-<td><code>Time</code></td>
-<td>Time (in seconds) for that interval.</td>
-</tr>
-<tr class="even">
-<td><code>Trial</code></td>
-<td>Number indicating which number trial the piece is (first of the season, second, third).</td>
-</tr>
-<tr class="odd">
-<td><code>Mean</code></td>
-<td>Average time of all athletes per 500m for that interval and trial.</td>
-</tr>
-<tr class="even">
-<td><code>Name</code></td>
-<td>Number indicating athlete</td>
-</tr>
-<tr class="odd">
-<td><code>Piece</code></td>
-<td>Two letters indicating class year and one digit indicating which trial of that training period.</td>
-</tr>
-<tr class="even">
-<td><code>Time</code></td>
-<td>Total time to complete 2k (in minutes:seconds)</td>
-</tr>
-<tr class="odd">
-<td><code>Class</code></td>
-<td>Year of collegiate career the piece was completed during.</td>
-</tr>
-</tbody>
-</table>
-</section>
 </section>
 <section id="visualizations-and-interpretations" class="level2">
 <h2 class="anchored" data-anchor-id="visualizations-and-interpretations">Visualizations and Interpretations</h2>
@@ -2517,7 +2521,7 @@ vertical-align: -.125em;
 </div>
 </div>
 <p>The plot shows the 2k time of 5 senior athletes during each of four winter training seasons (2023, 2024, 2025, and 2026). They completed 3-4 2ks per season and it is graphed in chronological order separated by athlete. There is a general trend in which athletes get better throughout each season yet start the next year slightly slower than when they left off.</p>
-<p>One interesting trend to examine is the idea of the “senior year slump”. The team’s coach had noticed that athletes typically performed optimally their junior year and had a regression during their senior year. This is seen in the graph as all but one athlete performed worse during their senior year as compared to their junior year. This could be due to many reasons including burnout, fatiguing, and being busier with other things and ready ot move on. While there are many possible reasons for the “senior slump” in erg performance it is evident that it happens to athletes on the team.</p>
+<p>One interesting trend to examine is the idea of the “senior year slump”. The team’s coach had noticed that athletes typically performed optimally their junior year and had a regression during their senior year. This is seen in the graph as all but one athlete performed worse during their senior year as compared to their junior year. This could be due to many reasons including burnout, fatiguing, and being busier with other things and ready to move on. While there are many possible reasons for the “senior slump” in erg performance it is evident that it happens to athletes on the team.</p>
 <p>The standard goal that female collegiate rowers aim for is being “sub 8”, meaning that their 2k is less than 8 minutes. The orange horizontal line shows where this milestone is to easily compare the performance of the athletes to it.</p>
 </section>
 </section>
@@ -2525,7 +2529,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <section id="final-analysis" class="level4">
 <h4 class="anchored" data-anchor-id="final-analysis">Final Analysis</h4>
-<p>There are many trends that can be discussed in this analysis.</p>
+<p>There are many trends that can be discussed in this analysis:</p>
 <p>There is a similar trend between 7x500 and 5x1000 meter intervals, but it can also be seen that the trend is stronger for 7x500m than 5x1000m intervals. This could be explained by the duration of the piece and the fact that athletes will tire out more during a longer interval so the averages are steadier than during a shorter distance sprint of 7x500 meters.</p>
 <p>The most optimal prediction for 2k time uses varsity boat status and 10k time. As 10k time increases, predicted 2k time increases, but at different rates. Varsity boat members are predicted to have a faster 2k than non-varsity boat athletes.</p>
 <p>2k times typically improve over the span of the winter training period, and there is a slight increase in total time before there is another improvement. The graph supports the notion that junior year is the peak in performance of athletes, not senior year.</p>

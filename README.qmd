@@ -2,9 +2,10 @@
 title: "SLU Women's Rowing Winter Training Analysis 2026"
 format: gfm
 ---
+## Abstract
+This project is an analysis of the St. Lawrence University Women's Rowing Team's winter training erg data, as well as a comparison to previous year's data. The data was collected from each erg piece during winter training and compiled into different data sets by workout. The project compares times and averages of interval pieces of varying lengths as well as creating a linear regression to predict an athlete's 2k time. It also looks at the 2k test piece progression of 2026 senior athletes. The project includes visualizations to answer questions of interest as well as detailed explanations of the trends seen.
 
-## Data
-
+## Data Introduction
 The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period.
 
 The women's rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.
@@ -20,6 +21,10 @@ The women's rowing team ergs five times a week and records data on each piece th
 | `Time` | Time (in seconds) for that interval. |
 | `Trial` | Number indicating which number trial the piece is (first of the season, second, third). |
 | `Mean` | Average time of all athletes per 500m for that interval and trial. |
+| `Name` | Number indicating athlete |
+| `Piece` | Two letters indicating class year and one digit indicating which trial of that training period. |
+| `Time` | Total time to complete 2k (in minutes:seconds) |
+| `Class` | Year of collegiate career the piece was completed during. |
 
 ## Questions of Interest
 
@@ -32,6 +37,10 @@ The women's rowing team ergs five times a week and records data on each piece th
 -   What variables best predict 2k time?
 
     -   and what does that prediction look like?
+
+-   What does 2k progression look like over the course of a female athlete's collegiate rowing career?
+
+    -   Is the "senior year slump" trend upheld?
 
 ## Visualization Examples
 
@@ -48,6 +57,7 @@ library(ggeffects)
 library(broom)
 x500sData <- read_csv("500sData.csv")
 x1000sData <- read_csv("1000sData.csv")
+senior2k <- read_csv("Senior2k.csv")
 
 x500_long <- x500sData |> pivot_longer(cols = Interval1:Interval7, 
                                        names_to = "Interval", values_to = "Time") |>
@@ -56,6 +66,15 @@ x500_long <- x500sData |> pivot_longer(cols = Interval1:Interval7,
   select(ID, Average, Interval, Time, Trial)
 
 x500_line <- x500_long |> group_by(Trial, Interval) |>
+  summarise(Mean = (mean(Time)))
+  
+x1000_long <- x1000sData |> pivot_longer(cols = Interval1:Interval5, 
+                                       names_to = "Interval", values_to = "Time")|>
+  mutate("Time" = as.numeric(Time)) |>
+  mutate("Time" = Time/60) |>
+  select(ID, Average, Interval, Time, Trial)
+
+x1000_line <- x1000_long |> group_by(Trial, Interval) |>
   summarise(Mean = (mean(Time)))
 
 pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
@@ -66,6 +85,42 @@ pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
   mutate(first10k = first10k/60) |>
   mutate(second10k = second10k/60) |>
   mutate(v1 = case_when(v1 == 0 ~ "No", v1 == 1 ~ "Yes"))
+
+mod_2k <- lm(k2 ~ second10k + v1, data = pred_10k_2k)
+mod_2k |> tidy()
+glance(mod_2k)
+
+ggpredict(mod_2k, terms = c("second10k", "v1"))
+ggpredict(mod_2k, terms = c("second10k", "v1")) |> 
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble()
+
+pred_time <- ggpredict(mod_2k, terms = c("second10k",  "v1")) |>
+  as.data.frame(terms_to_colnames = TRUE) |>
+  as_tibble() |>
+  arrange(v1, second10k) |>
+  mutate(v1 = factor(v1, levels = c("No", "Yes")))
+
+senior_long <- senior2k |>
+  mutate(Name = factor(Name, labels = paste("Athlete", 1:5))) |>
+  pivot_longer(
+    cols = c(FY1, FY2, FY3, SO1, SO2, SO3, SO4, JN1, JN2, JN3, SE1, SE2, SE3, SE4),
+    names_to = "Piece",
+    values_to = "Time") |>
+  mutate(Piece = factor(Piece, levels = c("FY1","FY2","FY3",
+                                      "SO1","SO2","SO3","SO4",
+                                      "JN1","JN2","JN3",
+                                      "SE1","SE2","SE3","SE4")),
+    Class = case_when(str_starts(Piece, "FY") ~ "Freshman", 
+                      str_starts(Piece, "SO") ~ "Sophomore",
+                      str_starts(Piece, "JN") ~ "Junior",
+                      str_starts(Piece, "SE") ~ "Senior"),
+    Piece = case_when(str_detect(Piece, "1") ~ "1",
+                      str_detect(Piece, "2") ~ "2",
+                      str_detect(Piece, "3") ~ "3",
+                      str_detect(Piece, "4") ~ "4"),
+    Class = factor(Class, levels = c("Freshman","Sophomore","Junior","Senior"))) |>
+  group_by(Name)
 ```
 
 #### 7x500m Intervals
@@ -76,9 +131,11 @@ The team completed a 7x500m interval piece three times throughout their winter t
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
   geom_line(data = x500_line, aes(x = Interval, y = Mean, 
-                                   group = Trial, colour = factor(Trial)), linewidth = 1.5) +
-  scale_colour_manual(values = c("purple", "steelblue", "darkorange"), name = "Average of Trial:") +
-  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals",
+                                   group = Trial, colour = factor(Trial)), 
+            linewidth = 1.5) +
+  scale_colour_viridis_d(name = "Average of Trial:") +
+  labs(y = "Seconds per 500 meters", colour = "AverageTrial", 
+       title = "7x500 meter Intervals",
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
   theme_minimal(base_size = 14)
 ```
@@ -132,9 +189,18 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   labs(colour = "Varsity Boat", fill = "Varsity Boat", y = "2k time (in seconds)",
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026",
        x = "10k time (in seconds)", title = "Predicting 2k time based on 10k time and Varsity Boat Status") +
-  scale_colour_manual(values = c("steelblue", "darkorange")) +
-  scale_fill_manual(values = c("steelblue", "darkorange")) +
+  scale_colour_viridis_d() +
+  scale_fill_viridis_d() +
   theme_minimal(base_size = 14)
 ```
 
 After an analysis of multiple models, varsity boat status and 10k time were found to be the best predictors for 2k times of an athlete. There is a positive correlation between 10k time and predicted 2k time. Predicted 2k time increases, on average, by 0.15 seconds for each additional second increase in 10k time, as long as varsity boat status is held constant. Athletes in the varsity boat are, on average, going to be about 10 seconds faster in their 2k than those that are not.
+
+## Final Analysis
+There are many trends that can be discussed in this analysis: 
+
+There is a similar trend between 7x500 and 5x1000 meter intervals, but it can also be seen that the trend is stronger for 7x500m than 5x1000m intervals. This could be explained by the duration of the piece and the fact that athletes will tire out more during a longer interval so the averages are steadier than during a shorter distance sprint of 7x500 meters.
+
+The most optimal prediction for 2k time uses varsity boat status and 10k time. As 10k time increases, predicted 2k time increases, but at different rates. Varsity boat members are predicted to have a faster 2k than non-varsity boat athletes. 
+
+2k times typically improve over the span of the winter training period, and there is a slight increase in total time before there is another improvement. The graph supports the notion that junior year is the peak in performance of athletes, not senior year.

@@ -1,7 +1,19 @@
 # SLU Women’s Rowing Winter Training Analysis 2026
 
 
-## Data
+## Abstract
+
+This project is an analysis of the St. Lawrence University Women’s
+Rowing Team’s winter training erg data, as well as a comparison to
+previous year’s data. The data was collected from each erg piece during
+winter training and compiled into different data sets by workout. The
+project compares times and averages of interval pieces of varying
+lengths as well as creating a linear regression to predict an athlete’s
+2k time. It also looks at the 2k test piece progression of 2026 senior
+athletes. The project includes visualizations to answer questions of
+interest as well as detailed explanations of the trends seen.
+
+## Data Introduction
 
 The data was collected from the St. Lawrence University Women’s Rowing
 Team during their 2026 winter training period.
@@ -23,6 +35,10 @@ intervals, 2k test pieces, and 10k test pieces.
 | `Time` | Time (in seconds) for that interval. |
 | `Trial` | Number indicating which number trial the piece is (first of the season, second, third). |
 | `Mean` | Average time of all athletes per 500m for that interval and trial. |
+| `Name` | Number indicating athlete |
+| `Piece` | Two letters indicating class year and one digit indicating which trial of that training period. |
+| `Time` | Total time to complete 2k (in minutes:seconds) |
+| `Class` | Year of collegiate career the piece was completed during. |
 
 ## Questions of Interest
 
@@ -37,6 +53,11 @@ intervals, 2k test pieces, and 10k test pieces.
 
   - and what does that prediction look like?
 
+- What does 2k progression look like over the course of a female
+  athlete’s collegiate rowing career?
+
+  - Is the “senior year slump” trend upheld?
+
 ## Visualization Examples
 
 #### 7x500m Intervals
@@ -50,9 +71,11 @@ another 500 meters. This is repeated for 7 intervals.
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
   geom_line(data = x500_line, aes(x = Interval, y = Mean, 
-                                   group = Trial, colour = factor(Trial)), linewidth = 1.5) +
-  scale_colour_manual(values = c("purple", "steelblue", "darkorange"), name = "Average of Trial:") +
-  labs(y = "Seconds per 500 meters", colour = "AverageTrial", title = "7x500 meter Intervals",
+                                   group = Trial, colour = factor(Trial)), 
+            linewidth = 1.5) +
+  scale_colour_viridis_d(name = "Average of Trial:") +
+  labs(y = "Seconds per 500 meters", colour = "AverageTrial", 
+       title = "7x500 meter Intervals",
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
   theme_minimal(base_size = 14)
 ```
@@ -80,8 +103,8 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   labs(colour = "Varsity Boat", fill = "Varsity Boat", y = "2k time (in seconds)",
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026",
        x = "10k time (in seconds)", title = "Predicting 2k time based on 10k time and Varsity Boat Status") +
-  scale_colour_manual(values = c("steelblue", "darkorange")) +
-  scale_fill_manual(values = c("steelblue", "darkorange")) +
+  scale_colour_viridis_d() +
+  scale_fill_viridis_d() +
   theme_minimal(base_size = 14)
 ```
 
@@ -94,3 +117,24 @@ Predicted 2k time increases, on average, by 0.15 seconds for each
 additional second increase in 10k time, as long as varsity boat status
 is held constant. Athletes in the varsity boat are, on average, going to
 be about 10 seconds faster in their 2k than those that are not.
+
+## Final Analysis
+
+There are many trends that can be discussed in this analysis:
+
+There is a similar trend between 7x500 and 5x1000 meter intervals, but
+it can also be seen that the trend is stronger for 7x500m than 5x1000m
+intervals. This could be explained by the duration of the piece and the
+fact that athletes will tire out more during a longer interval so the
+averages are steadier than during a shorter distance sprint of 7x500
+meters.
+
+The most optimal prediction for 2k time uses varsity boat status and 10k
+time. As 10k time increases, predicted 2k time increases, but at
+different rates. Varsity boat members are predicted to have a faster 2k
+than non-varsity boat athletes.
+
+2k times typically improve over the span of the winter training period,
+and there is a slight increase in total time before there is another
+improvement. The graph supports the notion that junior year is the peak
+in performance of athletes, not senior year.
