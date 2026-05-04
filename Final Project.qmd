@@ -5,6 +5,9 @@ format:
   html: 
     embed-resources: true
 ---
+
+Link to GitHub Repository: <https://github.com/keelinjoyce/334_final_project>
+
 ## Abstract
 This project is an analysis of the St. Lawrence University Women's Rowing Team's winter training erg data, as well as a comparison to previous year's data. The data was collected from each erg piece during winter training and compiled into different data sets by workout. The project compares times and averages of interval pieces of varying lengths as well as creating a linear regression to predict an athlete's 2k time. It also looks at the 2k test piece progression of 2026 senior athletes. The project includes visualizations to answer questions of interest as well as detailed explanations of the trends seen.
 
