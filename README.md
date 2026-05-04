@@ -1,4 +1,4 @@
-# README
+# SLU Women’s Rowing Winter Training Analysis 2026
 
 
 ## Data
@@ -26,16 +26,16 @@ intervals, 2k test pieces, and 10k test pieces.
 
 ## Questions of Interest
 
-1.  How do athletes fare during many short interval pieces compared to
-    fewer, longer intervals?
+- How do athletes fare during many short interval pieces compared to
+  fewer, longer intervals?
 
-    -\> is there a similar trend between 7x500 and 5x1000?
+  - is there a similar trend between 7x500 and 5x1000?
 
-    -\> what could be the explanation for these trends?
+  - what could be the explanation for these trends?
 
-2.  What variables best predict 2k time?
+- What variables best predict 2k time?
 
-    -\> and what does that prediction look like?
+  - and what does that prediction look like?
 
 ## Visualization Examples
 

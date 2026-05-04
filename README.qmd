@@ -1,14 +1,16 @@
 ---
-title: "README"
+title: "SLU Women's Rowing Winter Training Analysis 2026"
 format: gfm
 ---
+
 ## Data
-The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period. 
+
+The data was collected from the St. Lawrence University Women's Rowing Team during their 2026 winter training period.
 
 The women's rowing team ergs five times a week and records data on each piece that they complete including interval pieces and longer steady state pieces that build fitness and test pieces that show where their performance is at. This data includes 7x500m intervals, 5x1000m intervals, 2k test pieces, and 10k test pieces.
 
 | Variable | Description |
-|--------------------|----------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | `ID` | Number indicating athlete |
 | `Average` | Average time per 500m for each interval. |
 | `IntervalX` | Average time for 500m for that interval. |
@@ -21,18 +23,18 @@ The women's rowing team ergs five times a week and records data on each piece th
 
 ## Questions of Interest
 
-1.  How do athletes fare during many short interval pieces compared to fewer, longer intervals?
+-   How do athletes fare during many short interval pieces compared to fewer, longer intervals?
 
-    -\> is there a similar trend between 7x500 and 5x1000?
+    -   is there a similar trend between 7x500 and 5x1000?
 
-    -\> what could be the explanation for these trends?
+    -   what could be the explanation for these trends?
 
-2.  What variables best predict 2k time?
+-   What variables best predict 2k time?
 
-    -\> and what does that prediction look like?
-    
-    
+    -   and what does that prediction look like?
+
 ## Visualization Examples
+
 ```{r}
 #| warning: false
 #| output: false
@@ -64,10 +66,12 @@ pred_10k_2k <- read_csv("pred_10k_2k.csv") |>
   mutate(first10k = first10k/60) |>
   mutate(second10k = second10k/60) |>
   mutate(v1 = case_when(v1 == 0 ~ "No", v1 == 1 ~ "Yes"))
-```   
+```
 
 #### 7x500m Intervals
+
 The team completed a 7x500m interval piece three times throughout their winter training period. This means that athletes erg 500 meters as fast as they can and then rest for approximately 2 minutes before erging another 500 meters. This is repeated for 7 intervals.
+
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
   geom_point(aes(group = Trial, colour = factor(Trial))) +
@@ -78,9 +82,11 @@ ggplot(data = x500_long, aes(x = Interval, y = Time)) +
        caption = "Data collected from St. Lawrence University Crew Team Winter 2026")+
   theme_minimal(base_size = 14)
 ```
+
 The points show each individual data point for each interval, coloured by which trial it was completed during. The lines indicate the average of the team for each interval during each trial. They show that, in general, the team got faster each trial. A positive slope indicates a slowing down in pace as the y-axis measures total time taken to complete the interval.
 
 #### Linear Regression Visualization
+
 ```{r}
 #| warning: false
 #| output: false
@@ -130,8 +136,5 @@ ggplot(data = pred_10k_2k, aes(x = second10k, y = k2)) +
   scale_fill_manual(values = c("steelblue", "darkorange")) +
   theme_minimal(base_size = 14)
 ```
+
 After an analysis of multiple models, varsity boat status and 10k time were found to be the best predictors for 2k times of an athlete. There is a positive correlation between 10k time and predicted 2k time. Predicted 2k time increases, on average, by 0.15 seconds for each additional second increase in 10k time, as long as varsity boat status is held constant. Athletes in the varsity boat are, on average, going to be about 10 seconds faster in their 2k than those that are not.
-
-
-
-    

@@ -80,7 +80,7 @@ The women's rowing team ergs five times a week and records data on each piece th
 
 ```{r}
 ggplot(data = x500_long, aes(x = Interval, y = Time)) +
-  geom_point(aes(group = Trial, colour = factor(Trial))) +
+  geom_point(aes(group = Trial, colour = factor(Trial)), alpha = 0.7) +
   geom_line(data = x500_line, aes(x = Interval, y = Mean, 
                                    group = Trial, colour = factor(Trial)), linewidth = 1.5) +
   scale_colour_manual(values = c("purple", "steelblue", "darkorange"), name = "Average of Trial:") +
