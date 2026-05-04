@@ -228,6 +228,8 @@ The most optimal prediction for 2k time uses varsity boat status and 10k time. A
 
 2k times typically improve over the span of the winter training period, and there is a slight increase in total time before there is another improvement. The graph supports the notion that junior year is the peak in performance of athletes, not senior year.
 
+#### Future Work
+This project can be further expanded to include future data and more comparisons between years as well as other athletes and teams to include more variability in the analysis. It can also be expanded to include more training pieces and go more in-depth on how practical winter training practices are (which are most efficient).
 
 #### Potential Drawbacks
 One of the main considerations when using this data is that there is a very small sample size. The team only consists of about 20 athletes and although most complete each piece, there are still some missing data points due to injury, illness, and absences. A small sample size limits the amount of analysis that can be done.
